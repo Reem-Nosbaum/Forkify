@@ -1,10 +1,15 @@
 import recipeView from './views/recpieView.js'
-import searchView from './searchView.js'
+import resultsView from './views/resultsView.js'
+import searchView from './views/searchView.js'
 import 'core-js/stable'
 import'regenerator-runtime/runtime'
 import * as model from './model.js' 
 import recpieView from './views/recpieView.js';
 import { async } from 'regenerator-runtime';
+
+if(module.hot) {
+  module.hot.accept()
+}
 
 const controlRecipes = async function() {
   try {
@@ -25,13 +30,15 @@ const controlRecipes = async function() {
 }
 const controlSearchResults = async function() {
   try {
+    resultsView.renderSpinner()
+
     const query = searchView.getQuery()
     if(!query) return
 
-   await model.loadSearchResults('pizza')
-   console.log(model.state.search.results)
+   await model.loadSearchResults(query)
+   resultsView.render(model.state.search.results)
   } catch(err) {
-    console.error(err)
+    console.log(err)
   }
 }
 
