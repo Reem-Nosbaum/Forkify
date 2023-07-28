@@ -1,15 +1,10 @@
 import recipeView from './views/recpieView.js'
+import searchView from './searchView.js'
 import 'core-js/stable'
 import'regenerator-runtime/runtime'
 import * as model from './model.js' 
-const recipeContainer = document.querySelector('.recipe');
-
-
-
-// https://forkify-api.herokuapp.com/v2
-
-//////////////////////////////////////
-
+import recpieView from './views/recpieView.js';
+import { async } from 'regenerator-runtime';
 
 const controlRecipes = async function() {
   try {
@@ -25,13 +20,24 @@ const controlRecipes = async function() {
     // 2) rendring recipe
     recipeView.render(model.state.recipe)
   } catch(err) {
-    alert(err)
+    recipeView.renderError()
+  }
+}
+const controlSearchResults = async function() {
+  try {
+    const query = searchView.getQuery()
+    if(!query) return
+
+   await model.loadSearchResults('pizza')
+   console.log(model.state.search.results)
+  } catch(err) {
+    console.error(err)
   }
 }
 
-controlRecipes()
 
-
-window.addEventListener('load', controlRecipes);
-
-window.addEventListener('hashchange', controlRecipes);
+const init = function() {
+  recpieView.addHandlerRender(controlRecipes)
+  searchView.addHandlerSearch(controlSearchResults)
+}
+init()
