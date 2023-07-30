@@ -620,8 +620,16 @@ const controlPagination = function(goToPage) {
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage));
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
+const constrolServings = function(newServings) {
+    // update the recpie servingns (in state)
+    _modelJs.updateServings(newServings);
+    // update the recipe view
+    // recipeView.render(model.state.recipe)
+    (0, _recpieViewJsDefault.default).update(_modelJs.state.recipe);
+};
 const init = function() {
     (0, _recpieViewJsDefault.default).addHandlerRender(controlRecipes);
+    (0, _recpieViewJsDefault.default).addHandlerUpdateServings(constrolServings);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
@@ -2563,6 +2571,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 var _helpers = require("./helpers");
@@ -2616,6 +2625,12 @@ const getSearchResultsPage = function(page = state.search.page) {
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end);
+};
+const updateServings = function(newServings) {
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
 };
 
 },{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
@@ -2672,6 +2687,14 @@ class RecipeView extends (0, _viewDefault.default) {
             "hashchange"
         ].forEach((event)=>window.addEventListener(event, handler));
     }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--update-servings");
+            if (!btn) return;
+            const { updateTo } = btn.dataset;
+            if (+updateTo > 0) handler(+updateTo);
+        });
+    }
     _generateMarkup() {
         return `
         <figure class="recipe__fig">
@@ -2697,17 +2720,17 @@ class RecipeView extends (0, _viewDefault.default) {
           <span class="recipe__info-text">servings</span>
   
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
-              <svg>
-                <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
-              </svg>
-            </button>
-            <button class="btn--tiny btn--increase-servings">
-              <svg>
-                <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
-              </svg>
-            </button>
-          </div>
+          <button data-update-to =${this._data.servings - 1} class="btn--tiny btn--update-servings">
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
+            </svg>
+          </button>
+          <button  data-update-to =${this._data.servings + 1} class="btn--tiny btn--update-servings">
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
+            </svg>
+          </button>
+            </div>
         </div>
   
         <div class="recipe__user-generated">
@@ -3067,6 +3090,19 @@ class View {
         const markup = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElement = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElement.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") curEl.textContent = newEl.textContent;
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
+        });
     }
     _clear() {
         this._parentElement.innerHTML = "";

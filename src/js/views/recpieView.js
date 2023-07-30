@@ -11,6 +11,14 @@ class RecipeView extends View{
         ['load', 'hashchange'].forEach(event => window.addEventListener(event, handler));
     }
       
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener('click', function(e){
+            const btn = e.target.closest('.btn--update-servings')
+            if(!btn) return
+            const { updateTo } = btn.dataset
+            if (+updateTo > 0) handler(+updateTo)
+        })
+    }
 
     _generateMarkup() {
         return `
@@ -37,17 +45,17 @@ class RecipeView extends View{
           <span class="recipe__info-text">servings</span>
   
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
-              <svg>
-                <use href="${icons}#icon-minus-circle"></use>
-              </svg>
-            </button>
-            <button class="btn--tiny btn--increase-servings">
-              <svg>
-                <use href="${icons}#icon-plus-circle"></use>
-              </svg>
-            </button>
-          </div>
+          <button data-update-to =${this._data.servings - 1} class="btn--tiny btn--update-servings">
+            <svg>
+              <use href="${icons}#icon-minus-circle"></use>
+            </svg>
+          </button>
+          <button  data-update-to =${this._data.servings + 1} class="btn--tiny btn--update-servings">
+            <svg>
+              <use href="${icons}#icon-plus-circle"></use>
+            </svg>
+          </button>
+            </div>
         </div>
   
         <div class="recipe__user-generated">
