@@ -4,8 +4,6 @@ import {Fraction} from 'fractional'
 
 class RecipeView extends View{
     _parentElement = document.querySelector('.recipe');
-    _errorMessage = 'no recipes found for your query! please try again '
-    _message = ''
 
 
 
