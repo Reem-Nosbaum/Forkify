@@ -8,7 +8,6 @@ Forkify is a powerful and user-friendly web application that allows users to sea
 - [Features](#features)
 - [Demo](#demo)
 - [Installation](#installation)
-- [Running the App](#Running_the_App)
 - [Technologies](#technologies)
 - [Contributing](#contributing)
 - [License](#license)
@@ -53,10 +52,7 @@ https://forkify-reem.netlify.app
    ```bash
    npm install
    ```
-
-## Running the App
-
-Once the installation is complete, you can run the Forkify Recipe App by using the following command:
+4. Once the installation is complete, you can run the Forkify Recipe App by using the following command:
 
 ```bash
 npm start
