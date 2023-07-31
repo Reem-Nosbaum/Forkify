@@ -8,7 +8,7 @@ Forkify is a powerful and user-friendly web application that allows users to sea
 - [Features](#features)
 - [Demo](#demo)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Running the App](#Running_the_App)
 - [Technologies](#technologies)
 - [Contributing](#contributing)
 - [License](#license)
@@ -37,25 +37,30 @@ https://forkify-reem.netlify.app
 ## Installation
 
 1. Clone this repository to your local machine using:
+
+   ```bash
+   git clone https://github.com/Reem-Nosbaum/Forkify
    ```
-   git clone https://github.com/Reem-Nosbaum/Forkify.git
+
+2. Navigate to the project folder:
+
+   ```bash
+   cd forkify
    ```
 
-2. Open the project folder in your preferred code editor.
+3. Install the required dependencies using npm:
 
-## Usage
+   ```bash
+   npm install
+   ```
 
-1. Open `index.html` in your web browser to access the Forkify Recipe App.
+## Running the App
 
-2. Use the search bar to find recipes by entering keywords for your desired dish.
+Once the installation is complete, you can run the Forkify Recipe App by using the following command:
 
-3. Click on a recipe to view its details, including the list of ingredients and cooking instructions.
-
-4. To save a recipe, click the "Save Recipe" button. Your favorite recipes will be stored locally.
-
-5. To add the ingredients of a recipe to your shopping list, click the "Add to Shopping List" button.
-
-6. Access your shopping list by clicking the "Shopping List" link in the navigation bar.
+```bash
+npm start
+```
 
 ## Technologies
 
