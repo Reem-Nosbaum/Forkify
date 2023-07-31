@@ -38,7 +38,7 @@ https://forkify-reem.netlify.app
 
 1. Clone this repository to your local machine using:
    ```
-   git clone https://github.com/your-username/forkify.git](https://github.com/Reem-Nosbaum/Forkify.git
+   git clone https://github.com/Reem-Nosbaum/Forkify.git
    ```
 
 2. Open the project folder in your preferred code editor.
