@@ -5,6 +5,7 @@ import bookmarksView from './views/bookmarksView.js'
 import paginationView from './views/paginationView.js'
 import searchView from './views/searchView.js'
 import recpieView from './views/recpieView.js'
+import addRecipeView from './views/addRecipeView.js'
 
 import 'core-js/stable'
 import'regenerator-runtime/runtime'
@@ -17,24 +18,26 @@ import { async } from 'regenerator-runtime';
 const controlRecipes = async function() {
   try {
     const id = window.location.hash.slice(1)
-    console.log(id)
 
-    if(!id) return
-    // 1) loding recipe
-    recipeView.renderSpinner()
+    if (!id) return;
+    recipeView.renderSpinner();
 
-    resultsView.update(model.getSearchResultsPage())
+    // 0) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
 
-    bookmarksView.update(model.state.bookmarks)
+    // 1) Updating bookmarks view
+    bookmarksView.update(model.state.bookmarks);
 
-    await model.loadRecipe(id)
+    // 2) Loading recipe
+    await model.loadRecipe(id);
 
-    // 2) rendring recipe
-    recipeView.render(model.state.recipe)
-  } catch(err) {
-    recipeView.renderError()
+    // 3) Rendering recipe
+    recipeView.render(model.state.recipe);
+  } catch (err) {
+    recipeView.renderError();
+    console.error(err);
   }
-}
+};
 const controlSearchResults = async function() {
   try {
     resultsView.renderSpinner()
@@ -81,11 +84,21 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 }
 
+const controlBookmarks = function() {
+  bookmarksView.render(model.state.bookmarks)
+}
+
+const controlAddRecipe = function(newRecipe) {
+  console.log(newRecipe)
+}
+
 const init = function() {
+  bookmarksView.addHandlerRender(controlBookmarks)
   recpieView.addHandlerRender(controlRecipes)
   recipeView.addHandlerUpdateServings(constrolServings)
   recipeView.addHandlerAddBookmark(controlAddBookmark)
   searchView.addHandlerSearch(controlSearchResults)
   paginationView.addHandlerClick(controlPagination)
+  addRecipeView.addHandlerUpload(controlAddRecipe)
 }
 init()
