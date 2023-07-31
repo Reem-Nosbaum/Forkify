@@ -16,6 +16,7 @@ Forkify is a powerful and user-friendly web application that allows users to sea
 ## Introduction
 
 Forkify Recipe App was developed as part of a JavaScript course on Udemy "The Complete JavaScript Course 2023: From Zero to Expert!" by Jonas Schmedtmann. https://www.udemy.com/course/the-complete-javascript-course/
+
 The goal of this project was to build a website that allows users to easily search for recipes, save their favorite ones, and generate shopping lists based on the ingredients required for the selected recipes.
 
 ## Features
