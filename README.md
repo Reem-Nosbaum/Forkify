@@ -54,9 +54,9 @@ https://forkify-reem.netlify.app
    ```
 4. Once the installation is complete, you can run the Forkify Recipe App by using the following command:
 
-```bash
-npm start
-```
+   ```bash
+   npm start
+   ```
 
 ## Technologies
 
