@@ -1,11 +1,13 @@
+import * as model from './model.js' 
 import recipeView from './views/recpieView.js'
 import resultsView from './views/resultsView.js'
+import bookmarksView from './views/bookmarksView.js'
 import paginationView from './views/paginationView.js'
 import searchView from './views/searchView.js'
+import recpieView from './views/recpieView.js'
+
 import 'core-js/stable'
 import'regenerator-runtime/runtime'
-import * as model from './model.js' 
-import recpieView from './views/recpieView.js';
 import { async } from 'regenerator-runtime';
 
 // if(module.hot) {
@@ -22,6 +24,8 @@ const controlRecipes = async function() {
     recipeView.renderSpinner()
 
     resultsView.update(model.getSearchResultsPage())
+
+    bookmarksView.update(model.state.bookmarks)
 
     await model.loadRecipe(id)
 
@@ -71,6 +75,10 @@ const controlAddBookmark = function () {
 
   // 2) Update recipe view
   recipeView.update(model.state.recipe);
+
+
+  // 3) Render bookmarks
+  bookmarksView.render(model.state.bookmarks);
 }
 
 const init = function() {
